@@ -8,19 +8,70 @@
 </head>
 <body>
     <script>
-        function computerPlay(choice){
+        let playerSelection;
+        let computerSelection;
+        function computerPlay(){
             choice = Math.floor(Math.random() * 3);
-            console.log(choice);
             if (choice == 0){
-                return ("rock")
+                choiceStr = "rock";
             }
             if (choice == 1){
-                return ("paper")
+                choiceStr = "paper";
             }
-            else {
-                return ("scissors")
+            else if (choice == 2){
+                choiceStr = "scissors";
+                
             }
+            return choiceStr
         }
+        function playRound(playerSelection, computerSelection){
+            playerSelection = prompt("rock, paper, or scissors?").toLowerCase();
+            computerSelection = computerPlay();
+            if (playerSelection == "rock"){
+                if (computerSelection == "rock"){
+                    outcome = ("A tie!");
+                }
+                if (computerSelection == "paper"){
+                    outcome = ("you loose! " + choiceStr + " beats " + playerSelection) ;
+                }
+                else if (computerSelection == "scissors"){
+                    outcome = ("you win! " +  playerSelection + " beats " + choiceStr);
+                }
+                console.log(outcome);
+                return outcome;
+                
+            }
+            if (playerSelection == "paper"){
+                if (computerSelection == "rock"){
+                    outcome = ("you win! " +  playerSelection + " beats " + choiceStr);
+                }
+                if (computerSelection == "paper"){
+                   outcome = ("A tie!");
+                }
+                else if (computerSelection == "scissors"){
+                     outcome = ("you loose! " + choiceStr + " beats " + playerSelection) ;
+                }
+                console.log(outcome);
+                return outcome;
+                
+            }
+            if (playerSelection == "scissors"){
+                if (computerSelection == "rock"){
+                    outcome = ("you loose! " + choiceStr + " beats " + playerSelection) ;
+                }
+                if (computerSelection == "paper"){
+                    outcome = ("you win! " +  playerSelection + " beats " + choiceStr);
+                }
+                else if (computerSelection == "scissors"){
+                    outcome = ("A tie!");
+                }
+                console.log(outcome);
+                return outcome;
+                
+            }
+            
+        }
+        playRound();
     </script>
 </body>
 </html>
