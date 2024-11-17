@@ -7,8 +7,17 @@
     <title>Document</title>
 </head>
 <body>
+    <ul>
+        <button id="Rock">Rock</button>
+        <button id="Paper">Paper</button>
+        <button id="Scissors">Scissors</button>
+    </ul>
+    <div>Human: 0:0 :Computer</div>
+    <p>Outcome: </p>
     <script>
-        let playerSelection;
+        let buttons = document.querySelector('ul');
+        let div = document.querySelector('div');
+        let p = document.querySelector('p');
         let computerSelection;
         let pScore = 0;
         let cScore = 0;
@@ -26,18 +35,20 @@
             }
             return choiceStr
         }
-        function playRound(playerSelection, computerSelection){
-            playerSelection = prompt("rock, paper, or scissors?").toLowerCase();
+        function playRound(playerSelection){
             computerSelection = computerPlay();
             if (playerSelection == "rock"){
                 if (computerSelection == "rock"){
                     outcome = ("A tie!");
+                    updateScore(0, outcome);
                 }
-                if (computerSelection == "paper"){
+                else if (computerSelection == "paper"){
                     outcome = ("you loose! " + choiceStr + " beats " + playerSelection) ;
+                    updateScore(-1, outcome);
                 }
                 else if (computerSelection == "scissors"){
                     outcome = ("you win! " +  playerSelection + " beats " + choiceStr);
+                    updateScore(1, outcome);
                 }
                 console.log(outcome);
                 return outcome;
@@ -46,12 +57,15 @@
             if (playerSelection == "paper"){
                 if (computerSelection == "rock"){
                     outcome = ("you win! " +  playerSelection + " beats " + choiceStr);
+                    updateScore(1, outcome);
                 }
                 if (computerSelection == "paper"){
                    outcome = ("A tie!");
+                   updateScore(0, outcome);
                 }
                 else if (computerSelection == "scissors"){
                      outcome = ("you loose! " + choiceStr + " beats " + playerSelection) ;
+                     updateScore(-1, outcome);
                 }
                 console.log(outcome);
                 return outcome;
@@ -60,12 +74,15 @@
             if (playerSelection == "scissors"){
                 if (computerSelection == "rock"){
                     outcome = ("you loose! " + choiceStr + " beats " + playerSelection) ;
+                    updateScore(-1, outcome);
                 }
                 if (computerSelection == "paper"){
                     outcome = ("you win! " +  playerSelection + " beats " + choiceStr);
+                    updateScore(1, outcome);
                 }
                 else if (computerSelection == "scissors"){
                     outcome = ("A tie!");
+                    updateScore(0, outcome);
                 }
                 console.log(outcome);
                 return outcome;
@@ -73,29 +90,47 @@
             }
             
         }
-        function game(){
-            for (let i = 0; i < 5; i++) {
-                playRound();
-                
-                if (outcome.indexOf("you win! ") >=0){
+
+        buttons.addEventListener('click', (event) => {
+            let target = event.target;
+
+            switch(target.id) {
+                case 'Rock':
+                    playRound('rock');
+                    break;
+                case 'Paper':
+                    playRound('paper');
+                    break;
+                case 'Scissors':
+                    playRound('scissors');
+                    break;
+            }
+        });
+        
+        function updateScore(update, message) {
+            
+            switch(update) {
+                case 1:
                     pScore++;
-                }
-                if (outcome.indexOf("you loose! ") >=0){
+                    break;
+                case -1:
                     cScore++;
-                }
-                console.log(pScore + " - " + cScore)
+                    break;
+                case 0:
+                    break;
             }
-            if (pScore > cScore){
-                console.log("you won the match!")
+            div.textContent = "Human: " + pScore + ":" + cScore + " :Computer"
+            if (pScore >= 5 && pScore > cScore) {
+                p.textContent = "you won the match!";
+            } else if (cScore >= 5 && pScore < cScore) {
+                p.textContent = "you lost the match!";
+            }else {
+                p.textContent = "Outcome: " + message;
             }
-            if (pScore < cScore){
-                console.log("you lost the match!")
-            }
-            if (pScore == cScore){
-                console.log("you tied the match!")
-            }
+            
         }
-        game();
+        
+        
     </script>
 </body>
 </html>
